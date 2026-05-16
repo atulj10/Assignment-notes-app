@@ -1,4 +1,4 @@
-const prisma = require('../config/database');
+import prisma from '../config/database.js';
 
 function mapNote(note) {
   return {
@@ -20,7 +20,7 @@ function mapNote(note) {
  * @param {string|null} options.tag
  * @returns {Promise<{ data: array, pagination: object }>}
  */
-async function getNotes(userId, { page = 1, limit = 20, tag = null }) {
+export async function getNotes(userId, { page = 1, limit = 20, tag = null }) {
   const skip = (page - 1) * limit;
 
   const shares = await prisma.noteShare.findMany({
@@ -68,7 +68,7 @@ async function getNotes(userId, { page = 1, limit = 20, tag = null }) {
  * @param {string} userId
  * @returns {Promise<{ note: object | null, error: string | null, status: number | null }>}
  */
-async function getNoteById(noteId, userId) {
+export async function getNoteById(noteId, userId) {
   const note = await prisma.note.findUnique({ where: { id: noteId } });
 
   if (!note) {
@@ -98,7 +98,7 @@ async function getNoteById(noteId, userId) {
  * @param {string} ownerId
  * @returns {Promise<object>}
  */
-async function createNote(title, content, tags, ownerId) {
+export async function createNote(title, content, tags, ownerId) {
   const note = await prisma.note.create({
     data: { title, content, tags, ownerId },
   });
@@ -113,7 +113,7 @@ async function createNote(title, content, tags, ownerId) {
  * @param {object} updates
  * @returns {Promise<{ note: object | null, error: string | null, status: number }>}
  */
-async function updateNote(noteId, userId, updates) {
+export async function updateNote(noteId, userId, updates) {
   const note = await prisma.note.findUnique({
     where: { id: noteId },
     select: { ownerId: true },
@@ -146,7 +146,7 @@ async function updateNote(noteId, userId, updates) {
  * @param {string} userId
  * @returns {Promise<{ error: string | null, status: number }>}
  */
-async function deleteNote(noteId, userId) {
+export async function deleteNote(noteId, userId) {
   const note = await prisma.note.findUnique({
     where: { id: noteId },
     select: { ownerId: true },
@@ -174,7 +174,7 @@ async function deleteNote(noteId, userId) {
  * @param {number} options.limit
  * @returns {Promise<{ data: array, pagination: object }>}
  */
-async function searchNotes(query, userId, { page = 1, limit = 20 }) {
+export async function searchNotes(query, userId, { page = 1, limit = 20 }) {
   const skip = (page - 1) * limit;
 
   const data = await prisma.$queryRaw`
@@ -230,7 +230,7 @@ async function searchNotes(query, userId, { page = 1, limit = 20 }) {
  * @param {string} shareWithEmail
  * @returns {Promise<{ error: string | null, status: number }>}
  */
-async function shareNote(noteId, ownerId, shareWithEmail) {
+export async function shareNote(noteId, ownerId, shareWithEmail) {
   const note = await prisma.note.findUnique({
     where: { id: noteId },
     select: { ownerId: true },
@@ -275,5 +275,3 @@ async function shareNote(noteId, ownerId, shareWithEmail) {
 
   return { error: null, status: 200 };
 }
-
-module.exports = { getNotes, getNoteById, createNote, updateNote, deleteNote, searchNotes, shareNote };

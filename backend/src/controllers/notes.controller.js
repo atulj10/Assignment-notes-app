@@ -1,5 +1,5 @@
-const notesService = require('../services/notes.service');
-const { validationResult } = require('express-validator');
+import * as notesService from '../services/notes.service.js';
+import { validationResult } from 'express-validator';
 
 function hasValidationErrors(req, res) {
   const errors = validationResult(req);
@@ -30,7 +30,7 @@ function parsePagination(query) {
   return { page, limit };
 }
 
-async function getNotes(req, res, next) {
+export async function getNotes(req, res, next) {
   try {
     if (hasValidationErrors(req, res)) return;
 
@@ -47,7 +47,7 @@ async function getNotes(req, res, next) {
   }
 }
 
-async function getNoteById(req, res, next) {
+export async function getNoteById(req, res, next) {
   try {
     const { id } = req.params;
     const result = await notesService.getNoteById(id, req.user.sub);
@@ -65,7 +65,7 @@ async function getNoteById(req, res, next) {
   }
 }
 
-async function createNote(req, res, next) {
+export async function createNote(req, res, next) {
   try {
     if (hasValidationErrors(req, res)) return;
 
@@ -77,7 +77,7 @@ async function createNote(req, res, next) {
   }
 }
 
-async function updateNote(req, res, next) {
+export async function updateNote(req, res, next) {
   try {
     if (hasValidationErrors(req, res)) return;
 
@@ -97,7 +97,7 @@ async function updateNote(req, res, next) {
   }
 }
 
-async function deleteNote(req, res, next) {
+export async function deleteNote(req, res, next) {
   try {
     const { id } = req.params;
     const result = await notesService.deleteNote(id, req.user.sub);
@@ -115,7 +115,7 @@ async function deleteNote(req, res, next) {
   }
 }
 
-async function searchNotes(req, res, next) {
+export async function searchNotes(req, res, next) {
   try {
     if (hasValidationErrors(req, res)) return;
 
@@ -136,7 +136,7 @@ async function searchNotes(req, res, next) {
   }
 }
 
-async function shareNote(req, res, next) {
+export async function shareNote(req, res, next) {
   try {
     if (hasValidationErrors(req, res)) return;
 
@@ -162,5 +162,3 @@ async function shareNote(req, res, next) {
     next(err);
   }
 }
-
-module.exports = { getNotes, getNoteById, createNote, updateNote, deleteNote, searchNotes, shareNote };

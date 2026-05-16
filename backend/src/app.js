@@ -1,12 +1,12 @@
-require('dotenv').config();
-const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
-const rateLimit = require('express-rate-limit');
-const authRoutes = require('./routes/auth.routes');
-const notesRoutes = require('./routes/notes.routes');
-const miscRoutes = require('./routes/misc.routes');
-const errorHandler = require('./middleware/errorHandler');
+import 'dotenv/config';
+import express from 'express';
+import helmet from 'helmet';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
+import authRoutes from './routes/auth.routes.js';
+import notesRoutes from './routes/notes.routes.js';
+import miscRoutes from './routes/misc.routes.js';
+import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
@@ -29,4 +29,4 @@ app.use('/api', miscRoutes);
 
 app.use(errorHandler);
 
-module.exports = app;
+export default app;

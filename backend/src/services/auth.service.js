@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const prisma = require('../config/database');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import prisma from '../config/database.js';
 
 const jwtSecret = process.env.JWT_SECRET;
 const jwtExpiresIn = process.env.JWT_EXPIRES_IN || '24h';
@@ -11,7 +11,7 @@ const jwtExpiresIn = process.env.JWT_EXPIRES_IN || '24h';
  * @param {string} password
  * @returns {Promise<{ error: string | null }>}
  */
-async function register(email, password) {
+export async function register(email, password) {
   const existingUser = await prisma.user.findUnique({ where: { email } });
 
   if (existingUser) {
@@ -31,7 +31,7 @@ async function register(email, password) {
  * @param {string} password
  * @returns {Promise<{ access_token: string | null, error: string | null }>}
  */
-async function login(email, password) {
+export async function login(email, password) {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
@@ -53,5 +53,3 @@ async function login(email, password) {
 
   return { access_token, error: null };
 }
-
-module.exports = { register, login };

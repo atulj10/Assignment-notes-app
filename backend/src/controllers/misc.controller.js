@@ -1,7 +1,11 @@
-const path = require('path');
-const fs = require('fs');
+import { fileURLToPath } from 'url';
+import path from 'path';
+import fs from 'fs';
 
-function getAbout(req, res) {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export function getAbout(req, res) {
   res.json({
     name: 'Atul anand',
     email: 'atulanandj10@gmail.com',
@@ -13,10 +17,8 @@ function getAbout(req, res) {
   });
 }
 
-function getOpenApiJson(req, res) {
+export function getOpenApiJson(req, res) {
   const filePath = path.join(__dirname, '..', '..', 'openapi.json');
   const data = fs.readFileSync(filePath, 'utf-8');
   res.json(JSON.parse(data));
 }
-
-module.exports = { getAbout, getOpenApiJson };

@@ -1,6 +1,6 @@
-const { Router } = require('express');
-const auth = require('../middleware/auth');
-const {
+import { Router } from 'express';
+import auth from '../middleware/auth.js';
+import {
   getNotes,
   getNoteById,
   createNote,
@@ -8,12 +8,12 @@ const {
   deleteNote,
   searchNotes,
   shareNote,
-} = require('../controllers/notes.controller');
-const {
+} from '../controllers/notes.controller.js';
+import {
   createNoteValidator,
   updateNoteValidator,
   shareNoteValidator,
-} = require('../validators/notes.validator');
+} from '../validators/notes.validator.js';
 
 const router = Router();
 
@@ -25,4 +25,4 @@ router.put('/:id', auth, updateNoteValidator, updateNote);
 router.delete('/:id', auth, deleteNote);
 router.post('/:id/share', auth, shareNoteValidator, shareNote);
 
-module.exports = router;
+export default router;

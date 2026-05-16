@@ -1,6 +1,6 @@
-const { body, query, param } = require('express-validator');
+import { body, query } from 'express-validator';
 
-const createNoteValidator = [
+export const createNoteValidator = [
   body('title')
     .trim()
     .notEmpty()
@@ -21,7 +21,7 @@ const createNoteValidator = [
     .withMessage('Each tag must be a string'),
 ];
 
-const updateNoteValidator = [
+export const updateNoteValidator = [
   body('title')
     .optional()
     .trim()
@@ -44,14 +44,14 @@ const updateNoteValidator = [
     .withMessage('Each tag must be a string'),
 ];
 
-const shareNoteValidator = [
+export const shareNoteValidator = [
   body('share_with_email')
     .trim()
     .isEmail()
     .withMessage('Must be a valid email'),
 ];
 
-const paginationValidator = [
+export const paginationValidator = [
   query('page')
     .optional()
     .isInt({ min: 1 })
@@ -62,11 +62,9 @@ const paginationValidator = [
     .withMessage('Limit must be between 1 and 100'),
 ];
 
-const searchValidator = [
+export const searchValidator = [
   query('q')
     .trim()
     .notEmpty()
     .withMessage('Search query is required'),
 ];
-
-module.exports = { createNoteValidator, updateNoteValidator, shareNoteValidator, paginationValidator, searchValidator };
