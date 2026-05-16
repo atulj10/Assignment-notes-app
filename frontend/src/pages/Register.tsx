@@ -10,9 +10,24 @@ export default function Register() {
   const { register } = useAuthContext();
   const navigate = useNavigate();
 
+  function validatePassword(pw: string): string | null {
+    if (pw.length < 6) return 'Password must be at least 6 characters';
+    if (!/[A-Z]/.test(pw)) return 'Password must contain at least one uppercase letter';
+    if (!/[a-z]/.test(pw)) return 'Password must contain at least one lowercase letter';
+    if (!/\d/.test(pw)) return 'Password must contain at least one number';
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pw)) return 'Password must contain at least one special character';
+    return null;
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+    const pwError = validatePassword(password);
+    if (pwError) {
+      setError(pwError);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       await register(email.trim(), password);
