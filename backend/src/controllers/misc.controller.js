@@ -3,8 +3,8 @@ const fs = require('fs');
 
 function getAbout(req, res) {
   res.json({
-    name: 'Your Name',
-    email: 'your@email.com',
+    name: 'Atul anand',
+    email: 'atulanandj10@gmail.com',
     my_features: {
       'Note Tags': 'Users can label notes with custom tags and filter by tag via GET /notes?tag=. Mirrors Google Keep labels for better note organization.',
       'Full-Text Search': 'PostgreSQL tsvector-based search across note titles and content via GET /search?q= for fast relevant results.',
